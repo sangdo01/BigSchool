@@ -47,3 +47,11 @@ textarea {
     top: 0px;
     left: 70px;
 }
+.course > li .action{
+    display: name;
+    left: 70px;
+    position: absolute;
+}
+.course > li:hover .action{
+    display: block;
+}

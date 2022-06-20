@@ -1,11 +1,11 @@
 ﻿
-@model IEnumerable <LabBigSchool_DoVanSang.Models.Course>
+@model LabBigSchool_DoVanSang.ViewModels.CoursesViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 <div class="row">
     <ul class="course">
-        @foreach (var course in Model)
+        @foreach (var course in Model.UpcommingCourses)
         {
             <li>
                 <div class="date">
@@ -19,12 +19,20 @@
                 <div class="details">
                     <span class="lecturer">
                         @course.Lecturer.Name
-                        <button class="btn btn-default btn-sm js-toggle-attendance" data-user-id ="@course.LecturerId">Follow</button>
+                        @if (Model.ShowAction)
+                        {
+                            <button class="btn btn-default btn-sm js-toggle-attendance" data-user-id="@course.LecturerId">Follow</button>
+                        }
+
                     </span>
                     <span class="category">
                         @course.Category.Name
                     </span>
-                    <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                    @if (Model.ShowAction)
+                    {
+                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                    }
+
                 </div>
             </li>
         }
@@ -33,7 +41,7 @@
     {
         <script>
             $(document).ready(function () {
-                $("js-toggle-attendance").click(function (e) {
+                $(".js-toggle-attendance").click(function (e) {
                     var button = $(e.target);
                     $.post("/api/attendance", { courseID: button.attr("data-course-id") })
                         .done(function () {
@@ -47,9 +55,10 @@
                         });
                 });
 
-                $("js-toggle-follow").click(function (e) {
+
+                $(".js-toggle-follow").click(function (e) {
                     var button = $(e.target);
-                    $.post("/api/followings", { followeeID: button.attr("data-course-id") })
+                    $.post("/api/followings", { followeeID: button.attr("data-user-id") })
                         .done(function () {
                             button.text("Following");
                         })

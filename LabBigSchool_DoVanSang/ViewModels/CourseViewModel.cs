@@ -15,6 +15,7 @@ namespace LabBigSchool_DoVanSang.ViewModels
         [FutureDate]
         public string Date { get; set; }
         [Required]
+        [ValidTime]
         public string Time { get; set; }
         [Required]
         public byte Category { get; set; }
@@ -23,5 +24,7 @@ namespace LabBigSchool_DoVanSang.ViewModels
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
         }
+
+        
     }
 }
